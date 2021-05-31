@@ -1,3 +1,15 @@
+**/outputs/
+/nre_data/
+/inference/summaries/
+*.png
+**/sbi-logs/
+
+# Generated versions
+*/__version__.py
+
+# Mac Item
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

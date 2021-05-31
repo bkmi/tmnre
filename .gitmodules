@@ -1,0 +1,9 @@
+[submodule "remote/sbi"]
+	path = remote/sbi
+	url = git@github.com:mackelab/sbi.git
+[submodule "remote/sbibm"]
+	path = remote/sbibm
+	url = git@github.com:bkmi/sbibm.git
+[submodule "remote/swyft"]
+	path = remote/swyft
+	url = git@github.com:undark-lab/swyft.git
