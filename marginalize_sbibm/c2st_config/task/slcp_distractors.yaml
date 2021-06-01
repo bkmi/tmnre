@@ -1,0 +1,10 @@
+# @package _group_
+name: slcp_distractors
+num_simulations: 1000
+num_observation: 1
+dimension: 5
+num_marginals: 15
+
+cpus_per_task: 15
+tasks_per_node: 1
+mem_gb: 25

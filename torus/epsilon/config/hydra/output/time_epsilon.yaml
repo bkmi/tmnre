@@ -1,0 +1,6 @@
+# @package hydra
+run:
+  dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}/${epsilon}
+sweep:
+  dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}/
+  subdir: ${epsilon}

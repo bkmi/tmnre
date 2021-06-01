@@ -1,0 +1,4 @@
+# @package _group_
+compute_metrics: true
+compute_2d_marginals: true
+metric_n_jobs: ${hardware.launcher.cpus_per_task}

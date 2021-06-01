@@ -1,0 +1,14 @@
+# @package _group_
+name: REJ-ABC
+run: sbi.mcabc.run
+device: cpu
+params:
+  batch_size: 1000
+  num_top_samples: 100
+  distance: l2
+  lra: false
+  sass: false
+  sass_fraction: 0.5
+  sass_feature_expansion_degree: 3
+  kde_bandwidth: cv
+  

@@ -1,0 +1,10 @@
+# @package _group_
+name: gaussian_linear_uniform
+num_simulations: 1000
+num_observation: 1
+dimension: 10
+dir: ${algorithm.name}-${task.dimension}d-${task.params.simulator_scale}scale-${task.num_observation}-${task.num_simulations}
+params:
+  dim: ${task.dimension}
+  prior_bound: 1.0
+  simulator_scale: 0.1

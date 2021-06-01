@@ -1,0 +1,6 @@
+# @package hydra
+run:
+  dir: outputs/${task.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}/${task.dir}
+sweep:
+  dir: outputs/${task.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}/
+  subdir: ${task.dir}

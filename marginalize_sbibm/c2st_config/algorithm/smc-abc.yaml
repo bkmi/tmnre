@@ -1,0 +1,17 @@
+# @package _group_
+name: SMC-ABC
+run: sbi.smcabc.run
+device: cpu
+params:
+  population_size: null
+  epsilon_decay: 0.2
+  distance: l2
+  kernel: gaussian
+  kernel_variance_scale: 0.5
+  lra: false
+  sass: false
+  sass_fraction: 0.5
+  sass_feature_expansion_degree: 3
+  kde_bandwidth: cv 
+  kde_sample_weights: true
+  use_last_pop_samples: true

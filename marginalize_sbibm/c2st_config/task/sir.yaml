@@ -1,0 +1,10 @@
+# @package _group_
+name: sir
+num_simulations: 1000
+num_observation: 1
+dimension: 2
+num_marginals: 3
+
+cpus_per_task: 3
+tasks_per_node: 1
+mem_gb: 25

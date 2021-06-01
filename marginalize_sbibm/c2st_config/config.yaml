@@ -1,0 +1,17 @@
+# Hydra's overrides are used to change to different tasks and algorithms
+defaults:
+  - algorithm: nre
+  - task: slcp
+
+# Device to use, set on per-algorithm basis
+device: ${algorithm.device}
+
+# Location of https://github.com/mackelab/benchmarking_sbi_runs root
+# if installed like suggested, ~/path/to/tmnre/remote/benchmarking_sbi_runs/runs
+raw_results_root: ???
+
+# Seed
+seed: null
+
+# Debug
+debug: false

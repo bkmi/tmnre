@@ -1,0 +1,9 @@
+defaults:
+  - hardware: cuda0
+  - analysis: metrics
+  - algorithm: tmnre
+  - task: gaussian_linear_uniform
+  - hydra/output: time_taskname
+
+seed: null
+debug: false

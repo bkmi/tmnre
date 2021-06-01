@@ -1,0 +1,5 @@
+defaults:
+  - hardware: nadacpu
+  - hydra/output: time_epsilon
+
+epsilon: -6

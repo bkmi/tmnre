@@ -1,0 +1,10 @@
+# @package _group_
+name: gaussian_linear
+num_simulations: 1000
+num_observation: 1
+dimension: 10
+num_marginals: 55
+
+cpus_per_task: 16
+tasks_per_node: 1
+mem_gb: 25

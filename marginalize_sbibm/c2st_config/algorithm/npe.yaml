@@ -1,0 +1,14 @@
+# @package _group_
+name: NPE
+run: sbi.snpe.run
+device: cpu
+params:
+  max_rounds: 1
+  neural_net: nsf
+  hidden_features: 50
+  simulation_batch_size: 1000
+  training_batch_size: 10000
+  num_atoms: 10
+  automatic_transforms_enabled: false
+  z_score_x: true
+  z_score_theta: true

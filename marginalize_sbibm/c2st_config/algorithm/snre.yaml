@@ -1,0 +1,21 @@
+# @package _group_
+name: SNRE
+run: sbi.snre.run
+device: cpu
+params:
+  max_rounds: 10
+  neural_net: resnet
+  hidden_features: 50
+  simulation_batch_size: 1000
+  training_batch_size: 10000
+  num_atoms: 10
+  automatic_transforms_enabled: true
+  mcmc_parameters:
+    num_chains: 100
+    thin: 10
+    warmup_steps: 100
+    init_strategy: sir
+    sir_batch_size: 1000
+    sir_num_batches: 100
+  z_score_x: true
+  z_score_theta: true

@@ -1,0 +1,7 @@
+# @package _group_
+name: two_moons
+num_simulations: 1000
+num_observation: 1
+dimension: 2
+dir: ${algorithm.name}-${task.num_observation}-${task.num_simulations}
+params: {}

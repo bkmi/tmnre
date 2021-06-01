@@ -1,3 +1,4 @@
+.tmnre_env/ 
 **/outputs/
 /nre_data/
 /inference/summaries/
