@@ -2,7 +2,6 @@
 **/outputs/
 /nre_data/
 /inference/summaries/
-*.png
 **/sbi-logs/
 
 # Generated versions
