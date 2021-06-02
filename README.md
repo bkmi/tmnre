@@ -106,7 +106,7 @@ Training `mnre`, `nre`, and `snre` are all implemented within a jupyter notebook
 
 ## physics example
 
-The cosmology simulator uses the code CLASS, but the datastore is shipped with this repository so the simulator doesn't need to be called. Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` should run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made in the notebook using the `getdist` code.
+The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_public/), but the datastore is shipped with this repository so the simulator doesn't need to be called. Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` should run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made in the notebook using the [getdist](https://github.com/cmbant/getdist) code.
 
 # Results
 
