@@ -1,17 +1,21 @@
 # Truncated Marginal Neural Ratio Estimation
 
-This repository is the official implementation of the experiments from [Truncated Marginal Neural Ratio Estimation]() **deanonymize**.  
+This repository is the official implementation of the experiments from [Truncated Marginal Neural Ratio Estimation]() (**deanonymize**.  link to the arxiv will be put here)
 The underlying library is called swyft and we perform experiments with sbi and sbibm.
 
 
 ## Requirements
 
-In install the requirements using conda run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. (See pytorch's website.)
+To install the requirements using conda, run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. (See pytorch's website.)
 
 ```setup
 conda env create --prefix .tmnre_env --file environment.yml
 conda activate ./.tmnre_env
 ```
+
+## sbibm results
+
+### Marginalizing sbibm
 
 Performing the marginalization of sbibm requires the [very large raw dataset from sbibm](https://github.com/mackelab/benchmarking_sbi_runs).
 If you would like to install it so you can perform the marginalization, we recommend first installing [Git LFS](https://git-lfs.github.com/) then executing the following commands.
@@ -20,10 +24,6 @@ If you would like to install it so you can perform the marginalization, we recom
 cd remote
 git submodule add git@github.com:mackelab/benchmarking_sbi_runs.git
 ```
-
-## sbibm results
-
-### Marginalizing sbibm
 
 We use [hydra](https://hydra.cc/) to perform the marginalization and calculation of the c2st-ddm performance metric on the existing sbibm posterior data. Assuming you installed the raw sbibm dataset (see above), you can run the following command to calculate the c2st for every 1-dim and 2-dim marginal from the slcp task estimated by the nre algorithm with the following command:
 
@@ -63,7 +63,7 @@ Once you have done enough training and evaluation that you'd like to make a summ
 python inference_sbibm/summarize.py ~path/to/data tmnre-sbibm-results.csv
 ```
 
-We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. The raw data is available in [another repository with git lfs]() **deanonymize**.
+We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw data is already included in this submission file at the path `inference_sbibm/raw/`.).
 
 ### Generating the comparison plot
 
@@ -104,9 +104,9 @@ The ground truth for this task was generated using `D` 1-dimensional independent
 Training `mnre`, `nre`, and `snre` are all implemented within a jupyter notebook, along with diagnostic plots, in `eggbox/gen-eggbox.ipynb`. If the `SAVE` flag is turned on, the notebook trains and generates data pickles which contain c2st results, reference posterior samples, and estimated posterior samples. Finally, `msnre` is trained in another notebook `eggbox/smnre-eggbox-few.ipynb` where it produces posterior samples in another pickle. Finally, the reported plots are created in the `eggbox/plot-eggbox.ipynb` notebook.
 
 
-## physics example
+## Physics example
 
-The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_public/), but the datastore is shipped with this repository so the simulator doesn't need to be called. Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` should run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made in the notebook using the [getdist](https://github.com/cmbant/getdist) code.
+The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_public/), but we have saved the datastore so the simulator doesn't need to be called. It is is shipped with [this repository]() which can be installed using git lfs. (**deanonymize** the data is shipped along with the submission data at path `physics/TTTEEElm2500.zarr/`)  Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` should run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made using [getdist](https://github.com/cmbant/getdist).
 
 # Results
 
@@ -120,10 +120,31 @@ The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_
 
 ## Torus
 
-![epsilon](torus/epsilon/figures/torus-epsilon.png)
+A few posteriors from the torus problem. Ground truth, tmnre, and mnre.  
+<img src="torus/metrics/figures/torus-ref-corner.png" width="150" height="150">
+<img src="torus/metrics/figures/torus-tmnre-corner.png" width="150" height="150">
+<img src="torus/metrics/figures/torus-mnre-corner.png" width="150" height="150">
+
+A comparison of mnre to tmnre with several metrics.  
 ![metrics](torus/metrics/figures/torus-metrics.png)
 
+Results of our hyperparameter scan.  
+![epsilon](torus/epsilon/figures/torus-epsilon.png)
+
+## Eggbox
+
+A few posteriors from the eggbox problem. Ground truth, mnre, nre, and smnre.  
+<img src="eggbox/figures/eggbox-ref-corner.png" width="120" height="120">
+<img src="eggbox/figures/eggbox-mnre-corner.png" width="120" height="120">
+<img src="eggbox/figures/eggbox-nre-corner.png" width="120" height="120">
+<img src="eggbox/figures/eggbox-snre-corner.png" width="120" height="120">
+<img src="eggbox/figures/eggbox-msnre-corner.png" width="120" height="120">
+
+
+## Stochasticity
+
+The simulation and training is done in parallel. That means that even with a fixed seed, it is usually impossible to return exactly the same results. Data is therefore provided to reproduce our plots exactly.
 
 ## Contributing
 
-**deanonymize**
+(**deanonymize** this will be added to the public code)

@@ -43,3 +43,4 @@ dependencies:
     - -e "./remote/sbibm"
     - -e "./remote/swyft"
     - -e "."
+    - getdist
