@@ -47,7 +47,7 @@ Finally, once you've calculated the metrics of interest, we can summarize the re
 python marginalize_sbibm/summarize_marginalized_c2st.py ~/path/to/marginals marginal-sbibm-results.csv
 ```
 
-We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`. It was computed using the raw data from our marginalization runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw data is already included in this submission file at the path `marginalize_sbibm/raw/`.).
+We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`. It was computed using the raw data from our marginalization runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw (~2gb) data was simply too large to host and send anonymously. The summarized data is obviously available.).
 
 ### tmnre on sbibm
 
@@ -63,7 +63,7 @@ Once you have done enough training and evaluation that you'd like to make a summ
 python inference_sbibm/summarize.py ~path/to/data tmnre-sbibm-results.csv
 ```
 
-We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw data is already included in this submission file at the path `inference_sbibm/raw/`.).
+We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw (~15gb) data was simply too large to send anonomously. The summary data is available.)
 
 ### Generating the comparison plot
 
