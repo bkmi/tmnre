@@ -143,7 +143,7 @@ A few posteriors from the eggbox problem. Ground truth, mnre, nre, and smnre.
 
 ## Stochasticity
 
-The simulation and training is done in parallel. That means that even with a fixed seed, it is usually impossible to return exactly the same results. Data is therefore provided to reproduce our plots exactly.
+The simulation and training is done in parallel. That means that even with a fixed seed, it is usually impossible to return exactly the same results. Data is therefore provided to reproduce our plots.
 
 ## Contributing
 
