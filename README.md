@@ -47,7 +47,7 @@ Finally, once you've calculated the metrics of interest, we can summarize the re
 python marginalize_sbibm/summarize_marginalized_c2st.py ~/path/to/marginals marginal-sbibm-results.csv
 ```
 
-We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`.
+We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`. It was computed using the raw data from our marginalization runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw data is already included in this submission file at the path `marginalize_sbibm/raw/`.).
 
 ### tmnre on sbibm
 
