@@ -1,31 +1,45 @@
 # Truncated Marginal Neural Ratio Estimation
 
 This repository is the official implementation of the experiments from [Truncated Marginal Neural Ratio Estimation]() (**deanonymize**.  link to the arxiv will be put here)
-The underlying library is called swyft and we perform experiments with sbi and sbibm.
+The underlying library is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
 
 
 ## Requirements
 
-To install the requirements using conda, run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. (See pytorch's website.)
+To install the requirements using conda, run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. [See pytorch's website](https://pytorch.org/get-started/locally/).
 
 ```setup
 conda env create --prefix .tmnre_env --file environment.yml
 conda activate ./.tmnre_env
 ```
 
+### Accompanying Data - Zenodo
+
+There is a set of accompanying data (>17GB) including simulations, results, and more. You do not need the accompanying data to use most of the repository. The data is available on [Zenodo]() (**deanonymize**.  link to data will be put here). Each of the files were compressed using gzip. The manifest reads:
+
+```
+inference_sbibm_raw.tar.gz
+marginalized_sbibm_raw.tar.gz
+TTTEEElm2500.zarr.tar.gz
+```
+
+- `inference_sbibm_raw.tar.gz` corresponds to the data generated when applying `tmnre` to `sbibm`. It can be extracted to `inference_sbibm/raw`.  
+- `marginalized_sbibm_raw.tar.gz` corresponds to the metrics calculated from marginalizing the posterior samples of other `sbi` algorithms in `sbibm`. It can be extracted to `marginalized_sbibm/raw`.  
+- Finally, `TTTEEElm2500.zarr.tar.gz` contains simulations for the physics example. It must be extracted to `physics/TTTEEElm2500.zarr` for the physics notebook to function correctly.
+
 ## sbibm results
 
 ### Marginalizing sbibm
 
-Performing the marginalization of sbibm requires the [very large raw dataset from sbibm](https://github.com/mackelab/benchmarking_sbi_runs).
-If you would like to install it so you can perform the marginalization, we recommend first installing [Git LFS](https://git-lfs.github.com/) then executing the following commands.
+Performing the marginalization of `sbibm` requires the [very large raw dataset from sbibm](https://github.com/mackelab/benchmarking_sbi_runs).
+If you would like to install it so you can perform the marginalization, you must first install [Git LFS](https://git-lfs.github.com/) then execute the following commands.
 
 ```setup
 cd remote
 git submodule add git@github.com:mackelab/benchmarking_sbi_runs.git
 ```
 
-We use [hydra](https://hydra.cc/) to perform the marginalization and calculation of the c2st-ddm performance metric on the existing sbibm posterior data. Assuming you installed the raw sbibm dataset (see above), you can run the following command to calculate the c2st for every 1-dim and 2-dim marginal from the slcp task estimated by the nre algorithm with the following command:
+We use [hydra](https://hydra.cc/) to perform the marginalization and calculation of the c2st-ddm performance metric on the existing `sbibm` posterior data. Assuming you installed the raw `sbibm` dataset (see above), you can run the following command to calculate the c2st for every 1-dim and 2-dim marginal from the slcp task estimated by the nre algorithm with the following command:
 
 ```bash
 python marginalize_sbibm/calc_marginalized_c2st.py raw_results_root=remote/benchmarking_sbi_runs/runs/ algorithm=nre task=slcp
@@ -47,27 +61,27 @@ Finally, once you've calculated the metrics of interest, we can summarize the re
 python marginalize_sbibm/summarize_marginalized_c2st.py ~/path/to/marginals marginal-sbibm-results.csv
 ```
 
-We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`. It was computed using the raw data from our marginalization runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw (~2gb) data was simply too large to host and send anonymously. The summarized data is obviously available.).
+We have provided a results file already calculated in `marginalize_sbibm/marginal-c2st-summary.csv`. It was computed using the raw data from our marginalization runs. Those files are stored in `marginalized_sbibm_raw.tar.gz` on Zenodo.
 
 ### tmnre on sbibm
 
-Training and evaluating `tmnre` on a selection of sbibm tasks can be done using three programs in the `inference_sbibm` folder, namely `run.py`,`summarize.py`, and `metrics.py`. For training, preparation for plotting, and evaluation respectively. `run.py` implicitly calls `metrics.py` if you setup the hydra configuration correctly. There are many configuration options, we encourage the user to explore them by running `python inference_sbibm/run.py -h`. The following is a simple example run which trains, then generates the performance metric information for every 1-dim and 2-dim marginal.
+Training and evaluating `tmnre` on a selection of `sbibm` tasks can be done using three programs in the `inference_sbibm` folder, namely `run.py`, `summarize.py`, and `metrics.py`. For training, preparation for plotting, and evaluation respectively. `run.py` implicitly calls `metrics.py` if you setup the hydra configuration correctly. There are many configuration options, we encourage the user to explore them by running `python inference_sbibm/run.py -h`. The following is a simple example run which trains, then generates the performance metric information for every 1-dim and 2-dim marginal.
 
 ```bash
 python inference_sbibm/run.py task=two_moons task.num_simulations=10_000 task.num_observation=2 hardware=cuda0 analysis=metrics_2d_marginals 
 ```
 
-Once you have done enough training and evaluation that you'd like to make a summary dataframe and a plot. First summarize the data using the following command.
+Once you have done training and evaluation you can make a summary dataframe and a plot. First summarize the data using the following command.
 
 ```bash
 python inference_sbibm/summarize.py ~path/to/data tmnre-sbibm-results.csv
 ```
 
-We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. The raw data is available in [another repository with git lfs]() (**deanonymize** the raw (~15gb) data was simply too large to send anonomously. The summary data is available.)
+We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. Those files are stored in `inference_sbibm_raw.tar.gz` on Zenodo.
 
 ### Generating the comparison plot
 
-The jupyter notebook `compare.ipynb` is designed to use the plotting functions built into sbibm to create the plot that we reported in our paper. It requires two summary dataframes. They have already been provided for you and will be referenced if you simply run all the cells of the notebook.
+The jupyter notebook `inference_sbibm/compare.ipynb` is designed to use the plotting functions built into `sbibm` to create the plot that we reported in our paper. It requires two summary dataframes, `marginalize_sbibm/marginal-c2st-summary.csv` and `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. They have already been provided for you and will be referenced if you simply run all the cells of the notebook.
 
 ## Torus
 
@@ -77,7 +91,7 @@ The ground truth for this task was generated using rejection sampling. The task 
 
 ### Epsilon Hyperparameter Sweep
 
-The torus task is defined within our custom version of sbibm, a submodule in this package. Therefore, we can train on that task simply by calling a script which applies `tmnre` to the problem. We also applied hydra to this experiment. You can specify the hardware to train on using options `cpu` and `cuda0`. Epsilon is input as the exponent of a power of 10. The default `-6` implies `epsilon=10 ** -6`.
+The torus task is defined within our custom version of `sbibm`, a submodule in this package. Therefore, we can train on that task simply by calling a script which applies `tmnre` to the problem. We also applied hydra to this experiment. You can specify the hardware to train on using options `cpu` and `cuda0`. Epsilon is input as the exponent of a power of 10. The default `-6` implies `epsilon=10 ** -6`.
 
 ```bash
 python torus/epsilon/torus.py hardware=cuda0 epsilon=-6
@@ -91,7 +105,7 @@ python torus/epsilon/summarize.py ~/path/to/torus_sweep epsilon-results.csv
 
 ### Comparing tmnre to mnre
 
-The training of these methods is implemented in a jupyter notebook `gen-torus.ipynb` with diagnostic plots. When the `SAVE` flag is turned on, the notebook trains and generates a number of data pickles.
+The training of these methods is implemented in a jupyter notebook `gen-torus.ipynb` with diagnostic plots. When the `SAVE` flag is turned on, the notebook trains and generates a number of data pickles. The ones reported in the paper are included within this repo.
 
 ## Eggbox
 
@@ -101,12 +115,12 @@ The ground truth for this task was generated using `D` 1-dimensional independent
 
 ### Comparing mnre to nre, snre, smnre
 
-Training `mnre`, `nre`, and `snre` are all implemented within a jupyter notebook, along with diagnostic plots, in `eggbox/gen-eggbox.ipynb`. If the `SAVE` flag is turned on, the notebook trains and generates data pickles which contain c2st results, reference posterior samples, and estimated posterior samples. Finally, `msnre` is trained in another notebook `eggbox/smnre-eggbox-few.ipynb` where it produces posterior samples in another pickle. Finally, the reported plots are created in the `eggbox/plot-eggbox.ipynb` notebook.
+Training `mnre`, `nre`, and `snre` are all implemented within a jupyter notebook, along with diagnostic plots, in `eggbox/gen-eggbox.ipynb`. If the `SAVE` flag is turned on, the notebook trains and generates data pickles which contain c2st results, reference posterior samples, and estimated posterior samples. The data pickles we reported are already included in this repo. Finally, `msnre` is trained in another notebook `eggbox/smnre-eggbox-few.ipynb` where it produces posterior samples in another pickle, also included. Finally, the reported plots are created in the `eggbox/plot-eggbox.ipynb` notebook.
 
 
 ## Physics example
 
-The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_public/), but we have saved the datastore so the simulator doesn't need to be called. It is is shipped with [this repository]() which can be installed using git lfs. (**deanonymize** the data was simply too large to send anonomously (~3 GB). Processed data in the form of plots and notebooks are available within the `physics` folder.)  Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` should run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made using [getdist](https://github.com/cmbant/getdist).
+The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_public/), but we have saved the zarr simulation "datastore" so the simulator doesn't need to be called. This file can be found in `TTTEEElm2500.zarr.tar.gz` on Zenodo. Processed data in the form of plots and notebooks are available within the `physics` folder.)  Simply set the `LOAD` flag to `True` and the notebook `CMB_TTTEEE.ipynb` will run. The observation `obs` is also shipped with the repository -- this is needed to define the stochastic part of the simulator. The plots are made using [getdist](https://github.com/cmbant/getdist).
 
 # Results
 
@@ -120,12 +134,12 @@ The cosmology simulator uses the code [CLASS](https://github.com/lesgourg/class_
 
 ## Torus
 
-A few posteriors from the torus problem. Ground truth, tmnre, and mnre.  
+A few posteriors from the torus problem. Ground truth, `tmnre`, and mnre.  
 <img src="torus/metrics/figures/torus-ref-corner.png" width="150" height="150">
 <img src="torus/metrics/figures/torus-tmnre-corner.png" width="150" height="150">
 <img src="torus/metrics/figures/torus-mnre-corner.png" width="150" height="150">
 
-A comparison of mnre to tmnre with several metrics.  
+A comparison of mnre to `tmnre` with several metrics.  
 ![metrics](torus/metrics/figures/torus-metrics.png)
 
 Results of our hyperparameter scan.  
