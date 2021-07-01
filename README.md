@@ -4,18 +4,31 @@ This repository is the official implementation of the experiments from [Truncate
 The underlying library is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
 
 
-## Requirements
+## Setup
 
-To install the requirements using conda, run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. [See pytorch's website](https://pytorch.org/get-started/locally/).
+### Submodules
+
+First, pull the submodules to use the repository.
+
+```setup
+git submodule init
+git submodule update
+```
+
+### Requirements & Installation
+
+Next, install the requirements using conda. Run the following command. Note, it assumes that you can install `cudatoolkit=11.1`. If not, change the `environment.yml` file accordingly. [See pytorch's website](https://pytorch.org/get-started/locally/).
 
 ```setup
 conda env create --prefix .tmnre_env --file environment.yml
 conda activate ./.tmnre_env
 ```
 
+The above command will also install the `tmnre` package from this repository.
+
 ### Accompanying Data - Zenodo
 
-There is a set of accompanying data (>17GB) including simulations, results, and more. You do not need the accompanying data to use most of the repository. The data is available on [Zenodo]() (**deanonymize**.  link to data will be put here). Each of the files were compressed using gzip. The manifest reads:
+There is a set of accompanying data (>17GB) including simulations, results, and more. *You do not need the accompanying data to use most of the repository*. The data is available on [Zenodo]() (**deanonymize**.  link to data will be put here). Each of the files were compressed using gzip. The manifest reads:
 
 ```
 inference_sbibm_raw.tar.gz
@@ -25,7 +38,7 @@ TTTEEElm2500.zarr.tar.gz
 
 - `inference_sbibm_raw.tar.gz` corresponds to the data generated when applying `tmnre` to `sbibm`. It can be extracted to `inference_sbibm/raw`.  
 - `marginalized_sbibm_raw.tar.gz` corresponds to the metrics calculated from marginalizing the posterior samples of other `sbi` algorithms in `sbibm`. It can be extracted to `marginalized_sbibm/raw`.  
-- Finally, `TTTEEElm2500.zarr.tar.gz` contains simulations for the physics example. It must be extracted to `physics/TTTEEElm2500.zarr` for the physics notebook to function correctly.
+- Finally, `TTTEEElm2500.zarr.tar.gz` contains simulations for the physics example. It **must** be extracted to `physics/TTTEEElm2500.zarr` for the physics notebook to function correctly.
 
 ## sbibm results
 
