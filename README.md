@@ -1,6 +1,6 @@
 # Truncated Marginal Neural Ratio Estimation
 
-This repository is the official implementation of the experiments from [Truncated Marginal Neural Ratio Estimation]() (**deanonymize**.  link to the arxiv will be put here)
+This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation. Read on [arxiv]() (**deanonymize**.  link to data will be put here).
 The underlying library is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
 
 
@@ -174,4 +174,4 @@ The simulation and training is done in parallel. That means that even with a fix
 
 ## Contributing
 
-(**deanonymize** this will be added to the public code)
+Please apply the isort and black formatters to any submitted code.
