@@ -1,6 +1,8 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5043707.svg)](https://doi.org/10.5281/zenodo.5043707)
+
 # Truncated Marginal Neural Ratio Estimation
 
-This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation. Read on [arxiv]() (**deanonymize**.  link to data will be put here).
+This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation. Read on [arxiv]() (**deanonymize**.  link to arxiv will be put here).
 The underlying library is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
 
 
@@ -28,7 +30,7 @@ The above command will also install the `tmnre` package from this repository.
 
 ### Accompanying Data - Zenodo
 
-There is a set of accompanying data (>17GB) including simulations, results, and more. *You do not need the accompanying data to use most of the repository*. The data is available on [Zenodo]() (**deanonymize**.  link to data will be put here). Each of the files were compressed using gzip. The manifest reads:
+There is a set of accompanying data (>17GB) including simulations, results, and more. *You do not need the accompanying data to use most of the repository*. The data is available on [Zenodo](https://doi.org/10.5281/zenodo.5043707). Each of the files were compressed using gzip. The manifest reads:
 
 ```
 inference_sbibm_raw.tar.gz
