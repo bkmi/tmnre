@@ -8,9 +8,11 @@ import torch
 from toolz import compose
 
 import swyft
+import swyft.bounds
 from tmnre.nn.resnet import make_resenet_tail
 from sbibm.tasks.task import Task
-from swyft.utils.array import tensor_to_array
+from tmnre.algorithms.priors import get_affine_uniform_prior, get_diagonal_normal_prior
+
 
 SIMKEY = "X"
 
@@ -40,37 +42,25 @@ def swyftify_prior(sbibm_task: Task):
     name = sbibm_task.name
     prior_params = sbibm_task.prior_params
 
-    def get_affine_uniform_prior(low, high):
-        length = high - low
-        length = tensor_to_array(length)
-        low = tensor_to_array(low)
-
-        def uv(x):
-            return length * x + low
-
-        return swyft.Prior.from_uv(uv, sbibm_task.dim_parameters)
-
     if name == "gaussian_linear":
-        pass
+        prior = get_diagonal_normal_prior(
+            prior_params["loc"], prior_params["precision_matrix"],
+        )
     elif name == "gaussian_linear_uniform":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "gaussian_correlated_uniform":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp_distractors":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "bernoulli_glm":
         pass
@@ -78,13 +68,11 @@ def swyftify_prior(sbibm_task: Task):
         pass
     elif name == "gaussian_mixture":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "two_moons":
         prior = get_affine_uniform_prior(
-            prior_params["low"],
-            prior_params["high"],
+            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "sir":
         pass
@@ -237,11 +225,7 @@ def run(
     )
     constrained_prior = micro.constrained_prior
 
-    dataset = swyft.Dataset(
-        num_samples_in_region,
-        constrained_prior,
-        store,
-    )
+    dataset = swyft.Dataset(num_samples_in_region, constrained_prior, store,)
 
     dataset.simulate()
     posterior = swyft.Posteriors(dataset)
@@ -306,10 +290,7 @@ def main(task_name):
 
     sys.excepthook = pdb_hook
 
-    task = sbibm.get_task(
-        task_name,
-        dim=5,
-    )
+    task = sbibm.get_task(task_name, dim=5,)
     observation = task.get_observation(1)
     out = run(
         task=task,
