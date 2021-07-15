@@ -7,3 +7,6 @@
 [submodule "remote/swyft"]
 	path = remote/swyft
 	url = git@github.com:undark-lab/swyft.git
+[submodule "remote/diffeqtorch"]
+	path = remote/diffeqtorch
+	url = git@github.com:sbi-benchmark/diffeqtorch.git

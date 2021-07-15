@@ -1,0 +1,11 @@
+# @package _group_
+name: lotka_volterra
+num_simulations: 1000
+num_observation: 1
+dimension: 4
+dir: ${algorithm.name}-${task.dimension}d-${task.params.simulator_scale}scale-${task.num_observation}-${task.num_simulations}
+params:
+  days: 20.0
+  saveat: 0.1
+  summary: "subsample"
+  simulator_scale: 0.1

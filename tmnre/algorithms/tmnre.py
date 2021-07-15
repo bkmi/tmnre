@@ -11,7 +11,7 @@ import swyft
 import swyft.bounds
 from tmnre.nn.resnet import make_resenet_tail
 from sbibm.tasks.task import Task
-from tmnre.algorithms.priors import get_affine_uniform_prior, get_diagonal_normal_prior
+from tmnre.algorithms.priors import get_affine_uniform_prior, get_diagonal_normal_prior, get_diagonal_lognormal_prior
 
 
 SIMKEY = "X"
@@ -63,9 +63,9 @@ def swyftify_prior(sbibm_task: Task):
             prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "bernoulli_glm":
-        pass
+        raise NotImplementedError("This prior is not independent.")
     elif name == "bernoulli_glm_raw":
-        pass
+        raise NotImplementedError("This prior is not independent.")
     elif name == "gaussian_mixture":
         prior = get_affine_uniform_prior(
             prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
@@ -75,17 +75,13 @@ def swyftify_prior(sbibm_task: Task):
             prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
         )
     elif name == "sir":
-        pass
+        prior = get_diagonal_lognormal_prior(
+            prior_params["loc"], prior_params["scale"],
+        )
     elif name == "lotka_volterra":
-        pass
-        # prior_config = {
-        #     name: ("lognormal", loc, scale)
-        #     for name, loc, scale in zip(
-        #         parameter_names,
-        #         prior_params["loc"].tolist(),
-        #         prior_params["scale"].tolist(),
-        #     )
-        # }
+        prior = get_diagonal_lognormal_prior(
+            prior_params["loc"], prior_params["scale"],
+        )
     return prior
 
 

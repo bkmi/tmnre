@@ -28,6 +28,7 @@ def main(root: Path, n_jobs: int):
         num_observation=run_yaml["task"]["num_observation"],
         benchmark_paths=rooted_benchmark_paths,
         n_jobs=n_jobs,
+        do_kld=False,
     )
     df_metrics.to_csv(rooted_benchmark_paths.metrics, index=False)
     log.info(f"Metrics:\n{df_metrics.transpose().to_string(header=False)}")
