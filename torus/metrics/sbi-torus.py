@@ -100,7 +100,7 @@ def do_it(func, methods, path):
     return posterior_samples
 
 
-for ns in N_SIMULATIONS[:-1]:
+for ns in N_SIMULATIONS:
     non = do_it(
         partial(get_posterior_samples, n_sims=ns),
         ["NPE", "NLE", "NRE"],
