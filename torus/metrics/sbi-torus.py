@@ -100,11 +100,11 @@ def do_it(func, methods, path):
     return posterior_samples
 
 
-for ns in N_SIMULATIONS:
+for ns in N_SIMULATIONS[:-1]:
     non = do_it(
         partial(get_posterior_samples, n_sims=ns),
         ["NPE", "NLE", "NRE"],
-        "torus-sbi-non-{ns:06d}.pickle",
+        f"torus-sbi-non-{ns:06d}.pickle",
     )
 
 
@@ -181,4 +181,4 @@ def seq_do_it(func, methods, n_post_sims=N_POSTERIOR_SAMPLES):
     return posterior_samples
 
 
-seq_do_it(get_sequential_posterior_samples, ["NPE", "NLE", "NRE"])
+seq_do_it(get_sequential_posterior_samples, ["SNPE", "SNLE", "SNRE"])
