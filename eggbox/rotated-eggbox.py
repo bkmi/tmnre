@@ -172,9 +172,9 @@ def main():
         high=torch.tensor(new_bounds)[:, 1],
     )
 
-    # #################
-    # # swyft
-    # #################
+    #################
+    # swyft
+    #################
     swyft_datasets = []
     swyft_posts = []
     swyft_samples = []
@@ -246,10 +246,7 @@ def main():
         sbi_posteriors.append(posterior)
 
     with parallel_backend("loky", inner_max_num_threads=2):
-        sbi_samples = Parallel(n_jobs=len(N_SIMULATIONS))(
-            delayed(sample_sbi)(post, n, obs0)
-            for post, n in zip(sbi_posteriors, N_SIMULATIONS)
-        )
+        sbi_samples = Parallel(n_jobs=len(N_SIMULATIONS))(delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0) for post in sbi_posteriors)
     sbi_samples = [s.numpy() for s in sbi_samples]
 
     sbi_samples_path = "rot-sbi-samples.pickle"
@@ -296,6 +293,30 @@ def main():
     with open(seq_samples_path, "wb") as f:
         pickle.dump(seq_payload, f)
     
+    #################
+    # NLE
+    #################
+    nle_posteriors = []
+    for n in N_SIMULATIONS:
+        posterior = sbi.inference.base.infer(
+            rotated_simulator,
+            sbi_prior,
+            method="SNLE_A",
+            num_simulations=n,
+            num_workers=4,
+        )
+        nle_posteriors.append(posterior)
+
+    with parallel_backend("loky", inner_max_num_threads=2):
+        nle_samples = Parallel(n_jobs=len(N_SIMULATIONS))( delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0) for post in nle_posteriors )
+    nle_samples = [s.numpy() for s in nle_samples]
+
+    nle_samples_path = "rot-nle-samples.pickle"
+    nle_prefix = "nle/nsims-"
+    nle_payload = {nle_prefix + str(n): s for n, s in zip(N_SIMULATIONS, nle_samples)}
+    with open(nle_samples_path, "wb") as f:
+        pickle.dump(nle_payload, f)
+
     #################
     # SNLE
     #################
