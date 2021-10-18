@@ -1,13 +1,31 @@
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import Callable
+import numpy as np
 
 import pandas as pd
+import torch
 from omegaconf import OmegaConf
 from toolz import compose
 from tqdm import tqdm
 
 from tmnre.benchmark.paths import benchmark_paths
 from sbibm.utils.io import get_int_from_csv
+from swyft.utils import tensor_to_array
+
+
+def send_tensor_to_array_else_identity(item: str):
+    from torch import tensor  # Keep this for the function
+    if isinstance(item, str):
+        if item.split("(")[0] == "tensor" and "nan" not in item:
+            evald = eval(item)
+            return tensor_to_array(evald)
+        elif item.split("(")[0] == "tensor" and "nan" in item:
+            return np.array(float("NaN"))
+        else:
+            return item
+    else:
+        return item
 
 
 def compile_df(
@@ -63,6 +81,7 @@ def compile_df(
         # Read metric results
         path_metrics = basepath / benchmark_paths.metrics
         metrics = pd.read_csv(path_metrics)
+        metrics = metrics.transform(lambda col: col.map(send_tensor_to_array_else_identity))
         row.update(metrics.iloc[0].to_dict())
 
         # Path and folder
