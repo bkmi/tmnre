@@ -5,12 +5,12 @@ import numpy as np
 import pandas as pd
 
 import sbibm
+from sbibm.utils.io import get_float_from_csv, get_int_from_csv  # noqa: F401
 from tmnre.benchmark.paths import Paths, benchmark_paths
 from tmnre.functional.dicttools import filter_by_key_intersection
 from tmnre.io import load_marginal_samples_from_csv_directory
 from tmnre.marginalize import all_limits, all_marginals
 from tmnre.metrics import c2st_on_marginals, kl_on_marginals  # noqa: F401
-from sbibm.utils.io import get_float_from_csv, get_int_from_csv  # noqa: F401
 
 
 def denest_marginal_metrics(metrics_dict):
@@ -122,8 +122,12 @@ def compute_metrics_df(
     }
 
     if do_kld:
-        _METRICS_["KLD"] = "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=False, n_jobs=n_jobs)",
-        _METRICS_["KLD_FIX"] = "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=True, n_jobs=n_jobs)",
+        _METRICS_["KLD"] = (
+            "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=False, n_jobs=n_jobs)",
+        )
+        _METRICS_["KLD_FIX"] = (
+            "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=True, n_jobs=n_jobs)",
+        )
 
     metrics_dict = {}
     for metric, eval_cmd in _METRICS_.items():

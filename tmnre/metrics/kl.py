@@ -7,11 +7,11 @@ import torch
 from scipy.stats import entropy
 from toolz import compose, merge, merge_with
 
+from swyft.utils import tensor_to_array
 from tmnre.functional.dicttools import filter_by_key_intersection, parallel_merge_with
 from tmnre.marginalize import all_limits, all_marginals, filter_marginals_by_dim
 from tmnre.metrics.utils import summarize_metric
 from tmnre.types import MarginalKey, Marginals
-from swyft.utils import tensor_to_array
 
 
 def cartesian_product(*arrays):

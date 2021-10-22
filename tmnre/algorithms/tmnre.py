@@ -9,10 +9,13 @@ from toolz import compose
 
 import swyft
 import swyft.bounds
-from tmnre.nn.resnet import make_resenet_tail
 from sbibm.tasks.task import Task
-from tmnre.algorithms.priors import get_affine_uniform_prior, get_diagonal_normal_prior, get_diagonal_lognormal_prior
-
+from tmnre.algorithms.priors import (
+    get_affine_uniform_prior,
+    get_diagonal_lognormal_prior,
+    get_diagonal_normal_prior,
+)
+from tmnre.nn.resnet import make_resenet_tail
 
 SIMKEY = "X"
 
@@ -44,23 +47,32 @@ def swyftify_prior(sbibm_task: Task):
 
     if name == "gaussian_linear":
         prior = get_diagonal_normal_prior(
-            prior_params["loc"], prior_params["precision_matrix"],
+            prior_params["loc"],
+            prior_params["precision_matrix"],
         )
     elif name == "gaussian_linear_uniform":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "gaussian_correlated_uniform":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp_distractors":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "bernoulli_glm":
         raise NotImplementedError("This prior is not independent.")
@@ -68,19 +80,25 @@ def swyftify_prior(sbibm_task: Task):
         raise NotImplementedError("This prior is not independent.")
     elif name == "gaussian_mixture":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "two_moons":
         prior = get_affine_uniform_prior(
-            prior_params["low"], prior_params["high"], dim=sbibm_task.dim_parameters,
+            prior_params["low"],
+            prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "sir":
         prior = get_diagonal_lognormal_prior(
-            prior_params["loc"], prior_params["scale"],
+            prior_params["loc"],
+            prior_params["scale"],
         )
     elif name == "lotka_volterra":
         prior = get_diagonal_lognormal_prior(
-            prior_params["loc"], prior_params["scale"],
+            prior_params["loc"],
+            prior_params["scale"],
         )
     return prior
 
@@ -221,7 +239,11 @@ def run(
     )
     constrained_prior = micro.constrained_prior
 
-    dataset = swyft.Dataset(num_samples_in_region, constrained_prior, store,)
+    dataset = swyft.Dataset(
+        num_samples_in_region,
+        constrained_prior,
+        store,
+    )
 
     dataset.simulate()
     posterior = swyft.Posteriors(dataset)
@@ -286,7 +308,10 @@ def main(task_name):
 
     sys.excepthook = pdb_hook
 
-    task = sbibm.get_task(task_name, dim=5,)
+    task = sbibm.get_task(
+        task_name,
+        dim=5,
+    )
     observation = task.get_observation(1)
     out = run(
         task=task,

@@ -5,9 +5,8 @@ import numpy as np
 import pandas as pd
 from toolz import valmap
 
-from tmnre.marginalize import all_marginals
 from sbibm import get_results, get_task
-
+from tmnre.marginalize import all_marginals
 
 num_simulations_int_to_str = {
     1000: "10³",

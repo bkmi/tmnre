@@ -6,12 +6,12 @@ import torch
 from joblib import Parallel, delayed, parallel_backend
 from toolz import merge, merge_with, valmap
 
-from tmnre.functional.dicttools import map_on_value_pairs
-from tmnre.marginalize import all_marginals
-from tmnre.metrics.utils import summarize_metric
 from sbibm.metrics import c2st
 from swyft.types import Array
 from swyft.utils import array_to_tensor
+from tmnre.functional.dicttools import map_on_value_pairs
+from tmnre.marginalize import all_marginals
+from tmnre.metrics.utils import summarize_metric
 
 
 def c2sts(ps, qs, n_jobs=None):

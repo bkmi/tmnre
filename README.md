@@ -1,9 +1,9 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5043707.svg)](https://doi.org/10.5281/zenodo.5043707)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5592427.svg)](https://doi.org/10.5281/zenodo.5592427)
 
 # Truncated Marginal Neural Ratio Estimation
 
-This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation. Read on [arxiv](https://arxiv.org/abs/2107.01214).
-The underlying library is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
+This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation, published in NeurIPS 2021. Read the preprint on [arxiv](https://arxiv.org/abs/2107.01214).
+The underlying algorithm implementation is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
 
 
 ## Setup
@@ -30,7 +30,7 @@ The above command will also install the `tmnre` package from this repository.
 
 ### Accompanying Data - Zenodo
 
-There is a set of accompanying data (>17GB) including simulations, results, and more. *You do not need the accompanying data to use most of the repository*. The data is available on [Zenodo](https://doi.org/10.5281/zenodo.5043707). Each of the files were compressed using gzip. The manifest reads:
+There is a set of accompanying data (>27GB) including simulations, results, and more. *You do not need the accompanying data to use most of the repository*. The data is available on [Zenodo](https://doi.org/10.5281/zenodo.5592427). Each of the files were compressed using gzip. The manifest reads:
 
 ```
 inference_sbibm_raw.tar.gz
@@ -92,11 +92,11 @@ Once you have done training and evaluation you can make a summary dataframe and 
 python inference_sbibm/summarize.py ~path/to/data tmnre-sbibm-results.csv
 ```
 
-We have provided a file already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. It was computed using the raw data from our experimental runs. Those files are stored in `inference_sbibm_raw.tar.gz` on Zenodo.
+We have provided two files already computed in `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv` and `inference_sbibm/reports/swyft_non_uniform_2d_results_budget.csv`. They were computed using the raw data from our experimental runs. The corresponding raw data files are stored in `inference_sbibm_raw.tar.gz` on Zenodo.
 
 ### Generating the comparison plot
 
-The jupyter notebook `inference_sbibm/compare.ipynb` is designed to use the plotting functions built into `sbibm` to create the plot that we reported in our paper. It requires two summary dataframes, `marginalize_sbibm/marginal-c2st-summary.csv` and `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`. They have already been provided for you and will be referenced if you simply run all the cells of the notebook.
+The jupyter notebook `inference_sbibm/compare.ipynb` is designed to use the plotting functions built into `sbibm` to create the plot that we reported in our paper. It requires three summary dataframes, `marginalize_sbibm/marginal-c2st-summary.csv`, `inference_sbibm/reports/swyft_uniform_2d_results_budget.csv`, and `inference_sbibm/reports/swyft_non_uniform_2d_results_budget.csv`. They have already been provided for you and will be referenced if you simply run all the cells of the notebook.
 
 ## Torus
 
@@ -122,6 +122,10 @@ python torus/epsilon/summarize.py ~/path/to/torus_sweep epsilon-results.csv
 
 The training of these methods is implemented in a jupyter notebook `gen-torus.ipynb` with diagnostic plots. When the `SAVE` flag is turned on, the notebook trains and generates a number of data pickles. The ones reported in the paper are included within this repo.
 
+### Other SBI Methods
+
+The other sbi methods were trained using the script `torus/metrics/sbi-torus.py`. The corresponding plots were generated using `torus/metrics/sbi-plot-torus.ipynb`.
+
 ## Eggbox
 
 ### Ground Truth
@@ -132,6 +136,13 @@ The ground truth for this task was generated using `D` 1-dimensional independent
 
 Training `mnre`, `nre`, and `snre` are all implemented within a jupyter notebook, along with diagnostic plots, in `eggbox/gen-eggbox.ipynb`. If the `SAVE` flag is turned on, the notebook trains and generates data pickles which contain c2st results, reference posterior samples, and estimated posterior samples. The data pickles we reported are already included in this repo. Finally, `msnre` is trained in another notebook `eggbox/smnre-eggbox-few.ipynb` where it produces posterior samples in another pickle, also included. Finally, the reported plots are created in the `eggbox/plot-eggbox.ipynb` notebook.
 
+### Other SBI Methods
+
+The other sbi methods were trained using the script `eggbox/sbi-eggbox.py`. The corresponding plots were generated using `eggbox/metrics/sbi-plot-eggbox.ipynb`.
+
+### Rotated Eggbox
+
+The details of the rotated eggbox are all within a folder called `eggbox/rotated`.
 
 ## Physics example
 

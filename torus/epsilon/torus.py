@@ -8,14 +8,14 @@ import torch
 from omegaconf import DictConfig
 from toolz import identity, valmap
 
+import sbibm
+import swyft
 import tmnre
 import tmnre.benchmark
 import tmnre.io
 import tmnre.metrics
-import sbibm
-import swyft
-from tmnre.nn.resnet import make_resenet_tail
 from sbibm.utils.io import save_int_to_csv
+from tmnre.nn.resnet import make_resenet_tail
 
 
 def get_10k(x):
@@ -165,8 +165,12 @@ def main(cfg: DictConfig):
     np.save("bounds.npy", bounds)
     tmnre.io.save_array_to_csv("volumes.csv", volumes)
     tmnre.io.save_array_to_csv("n-simulations.csv", micro.n_simulations)
-    tmnre.io.save_weighted_samples_to_csv_directory("weighted-samples", weighted_samples)
-    tmnre.io.save_marginal_samples_to_csv_directory("rejection-samples", rejection_samples)
+    tmnre.io.save_weighted_samples_to_csv_directory(
+        "weighted-samples", weighted_samples
+    )
+    tmnre.io.save_marginal_samples_to_csv_directory(
+        "rejection-samples", rejection_samples
+    )
 
     #################################
     ## Metric part

@@ -152,9 +152,7 @@ def main():
 
     print(f"{Qt @ theta0=}")
 
-    forward = partial(
-        swyftify_simulator, rotated_simulator, simkey=SIMKEY
-    )
+    forward = partial(swyftify_simulator, rotated_simulator, simkey=SIMKEY)
     simulator = swyft.Simulator(forward, sim_shapes={SIMKEY: (task.dim_data,)})
     store = swyft.MemoryStore(task.dim_parameters, simulator=simulator)
 
@@ -246,7 +244,10 @@ def main():
         sbi_posteriors.append(posterior)
 
     with parallel_backend("loky", inner_max_num_threads=2):
-        sbi_samples = Parallel(n_jobs=len(N_SIMULATIONS))(delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0) for post in sbi_posteriors)
+        sbi_samples = Parallel(n_jobs=len(N_SIMULATIONS))(
+            delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0)
+            for post in sbi_posteriors
+        )
     sbi_samples = [s.numpy() for s in sbi_samples]
 
     sbi_samples_path = "rot-sbi-samples.pickle"
@@ -274,14 +275,17 @@ def main():
         inference = sbi.inference.SNRE_A(prior=seq_prior)
         proposal = seq_prior
         for r in range(num_rounds):
-            theta, x = sbi.inference.simulate_for_sbi(seq_sim, proposal, num_simulations=n_per_round, num_workers=4)
-            density_estimator = inference.append_simulations(theta, x, from_round=r).train()
+            theta, x = sbi.inference.simulate_for_sbi(
+                seq_sim, proposal, num_simulations=n_per_round, num_workers=4
+            )
+            density_estimator = inference.append_simulations(
+                theta, x, from_round=r
+            ).train()
             posterior = inference.build_posterior(density_estimator)
             posteriors.append(posterior)
             proposal = posterior.set_default_x(torch.atleast_2d(obs0))
         samples = posterior.sample(
-            (int(N_POSTERIOR_SAMPLES),),
-            x=torch.atleast_2d(obs0)
+            (int(N_POSTERIOR_SAMPLES),), x=torch.atleast_2d(obs0)
         )
         seq_posteriors.append(posterior)
         seq_samples.append(samples)
@@ -292,7 +296,7 @@ def main():
     seq_payload = {seq_prefix + str(n): s for n, s in zip(N_SIMULATIONS, seq_samples)}
     with open(seq_samples_path, "wb") as f:
         pickle.dump(seq_payload, f)
-    
+
     #################
     # NLE
     #################
@@ -308,7 +312,10 @@ def main():
         nle_posteriors.append(posterior)
 
     with parallel_backend("loky", inner_max_num_threads=2):
-        nle_samples = Parallel(n_jobs=len(N_SIMULATIONS))( delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0) for post in nle_posteriors )
+        nle_samples = Parallel(n_jobs=len(N_SIMULATIONS))(
+            delayed(sample_sbi)(post, N_POSTERIOR_SAMPLES, obs0)
+            for post in nle_posteriors
+        )
     nle_samples = [s.numpy() for s in nle_samples]
 
     nle_samples_path = "rot-nle-samples.pickle"
@@ -336,14 +343,17 @@ def main():
         inference = sbi.inference.SNLE_A(prior=snle_prior)
         proposal = snle_prior
         for r in range(num_rounds):
-            theta, x = sbi.inference.simulate_for_sbi(snle_sim, proposal, num_simulations=n_per_round, num_workers=4)
-            density_estimator = inference.append_simulations(theta, x, from_round=r).train()
+            theta, x = sbi.inference.simulate_for_sbi(
+                snle_sim, proposal, num_simulations=n_per_round, num_workers=4
+            )
+            density_estimator = inference.append_simulations(
+                theta, x, from_round=r
+            ).train()
             posterior = inference.build_posterior(density_estimator)
             posteriors.append(posterior)
             proposal = posterior.set_default_x(torch.atleast_2d(obs0))
         samples = posterior.sample(
-            (int(N_POSTERIOR_SAMPLES),),
-            x=torch.atleast_2d(obs0)
+            (int(N_POSTERIOR_SAMPLES),), x=torch.atleast_2d(obs0)
         )
         snle_posteriors.append(posterior)
         snle_samples.append(samples)
@@ -351,9 +361,12 @@ def main():
     snle_samples = [s.numpy() for s in snle_samples]
     snle_samples_path = "rot-snle-samples.pickle"
     snle_prefix = "snle/nsims-"
-    snle_payload = {snle_prefix + str(n): s for n, s in zip(N_SIMULATIONS, snle_samples)}
+    snle_payload = {
+        snle_prefix + str(n): s for n, s in zip(N_SIMULATIONS, snle_samples)
+    }
     with open(snle_samples_path, "wb") as f:
         pickle.dump(snle_payload, f)
+
 
 if __name__ == "__main__":
     main()

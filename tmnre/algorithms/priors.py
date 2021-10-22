@@ -1,7 +1,8 @@
-import swyft
 import torch
-from swyft.utils.array import tensor_to_array, array_to_tensor
 from toolz import compose
+
+import swyft
+from swyft.utils.array import array_to_tensor, tensor_to_array
 
 
 def get_affine_uniform_prior(low, high, dim):
@@ -31,19 +32,20 @@ def get_diagonal_normal_prior(loc: torch.Tensor, precision_matrix: torch.Tensor)
         )
     )
 
+
 def get_diagonal_lognormal_prior(loc: torch.Tensor, scale: torch.Tensor):
     assert loc.ndim == 1
     assert scale.ndim == 1
     assert len(loc) == len(scale)
     dim = len(loc)
     d = torch.distributions.LogNormal(loc=loc, scale=scale)
-    
+
     # ###### for scipy.stats
-    # # A common parametrization for a lognormal random variable Y is in terms of the mean, mu, and standard deviation, sigma, 
-    # # of the unique normally distributed random variable X such that exp(X) = Y. 
+    # # A common parametrization for a lognormal random variable Y is in terms of the mean, mu, and standard deviation, sigma,
+    # # of the unique normally distributed random variable X such that exp(X) = Y.
     # # This parametrization corresponds to setting s = sigma and scale = exp(mu).
     # sds = [
-    #     stats.lognorm(s=sigma, loc=1, scale=exp(mu)) 
+    #     stats.lognorm(s=sigma, loc=1, scale=exp(mu))
     #     for mu, sigma in zip(loc.tolist(), scale.tolist())
     # ]
 
