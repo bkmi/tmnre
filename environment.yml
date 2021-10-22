@@ -16,8 +16,8 @@ channels:
   - nvidia
 
 dependencies:
-  - "python >= 3.6.0"
-  - "pytorch = 1.8.1"
+  - "python >= 3.7.0, < 3.9"
+  - "pytorch >= 1.8.1"
   - "cudatoolkit = 11.1"
   - jupyter
   - jupyterlab
@@ -42,5 +42,6 @@ dependencies:
     - -e "./remote/sbi[dev]"
     - -e "./remote/sbibm"
     - -e "./remote/swyft"
+    - -e "./remote/diffeqtorch"
     - -e "."
     - getdist

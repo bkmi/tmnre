@@ -6,8 +6,8 @@ from omegaconf import OmegaConf
 from toolz import compose
 from tqdm import tqdm
 
-from tmnre.benchmark.paths import benchmark_paths
 from sbibm.utils.io import get_float_from_csv, get_int_from_csv, get_ndarray_from_csv
+from tmnre.benchmark.paths import benchmark_paths
 
 
 def compile_df(

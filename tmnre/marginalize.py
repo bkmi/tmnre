@@ -4,8 +4,8 @@ from typing import Sequence, Union
 import numpy as np
 from toolz.dicttoolz import keyfilter
 
-from tmnre.types import Marginals
 from swyft.types import Array
+from tmnre.types import Marginals
 
 
 def corner_combinations(zdim: int):

@@ -8,9 +8,14 @@ import torch
 from toolz import compose
 
 import swyft
-from tmnre.nn.resnet import make_resenet_tail
+import swyft.bounds
 from sbibm.tasks.task import Task
-from swyft.utils.array import tensor_to_array
+from tmnre.algorithms.priors import (
+    get_affine_uniform_prior,
+    get_diagonal_lognormal_prior,
+    get_diagonal_normal_prior,
+)
+from tmnre.nn.resnet import make_resenet_tail
 
 SIMKEY = "X"
 
@@ -40,64 +45,61 @@ def swyftify_prior(sbibm_task: Task):
     name = sbibm_task.name
     prior_params = sbibm_task.prior_params
 
-    def get_affine_uniform_prior(low, high):
-        length = high - low
-        length = tensor_to_array(length)
-        low = tensor_to_array(low)
-
-        def uv(x):
-            return length * x + low
-
-        return swyft.Prior.from_uv(uv, sbibm_task.dim_parameters)
-
     if name == "gaussian_linear":
-        pass
+        prior = get_diagonal_normal_prior(
+            prior_params["loc"],
+            prior_params["precision_matrix"],
+        )
     elif name == "gaussian_linear_uniform":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "gaussian_correlated_uniform":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "slcp_distractors":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "bernoulli_glm":
-        pass
+        raise NotImplementedError("This prior is not independent.")
     elif name == "bernoulli_glm_raw":
-        pass
+        raise NotImplementedError("This prior is not independent.")
     elif name == "gaussian_mixture":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "two_moons":
         prior = get_affine_uniform_prior(
             prior_params["low"],
             prior_params["high"],
+            dim=sbibm_task.dim_parameters,
         )
     elif name == "sir":
-        pass
+        prior = get_diagonal_lognormal_prior(
+            prior_params["loc"],
+            prior_params["scale"],
+        )
     elif name == "lotka_volterra":
-        pass
-        # prior_config = {
-        #     name: ("lognormal", loc, scale)
-        #     for name, loc, scale in zip(
-        #         parameter_names,
-        #         prior_params["loc"].tolist(),
-        #         prior_params["scale"].tolist(),
-        #     )
-        # }
+        prior = get_diagonal_lognormal_prior(
+            prior_params["loc"],
+            prior_params["scale"],
+        )
     return prior
 
 

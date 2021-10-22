@@ -1,0 +1,13 @@
+# @package _group_
+name: sir
+num_simulations: 1000
+num_observation: 1
+dimension: 2
+dir: ${algorithm.name}-${task.dimension}d-${task.num_observation}-${task.num_simulations}
+params:
+  N: 1000000.0
+  I0: 1.0
+  R0: 0.0
+  days: 160.0
+  saveat: 1.0
+  total_count: 1000

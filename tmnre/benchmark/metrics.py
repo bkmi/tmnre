@@ -5,12 +5,12 @@ import numpy as np
 import pandas as pd
 
 import sbibm
+from sbibm.utils.io import get_float_from_csv, get_int_from_csv  # noqa: F401
 from tmnre.benchmark.paths import Paths, benchmark_paths
 from tmnre.functional.dicttools import filter_by_key_intersection
 from tmnre.io import load_marginal_samples_from_csv_directory
 from tmnre.marginalize import all_limits, all_marginals
 from tmnre.metrics import c2st_on_marginals, kl_on_marginals  # noqa: F401
-from sbibm.utils.io import get_float_from_csv, get_int_from_csv  # noqa: F401
 
 
 def denest_marginal_metrics(metrics_dict):
@@ -30,6 +30,7 @@ def compute_metrics_df(
     benchmark_paths: Paths = benchmark_paths,
     log: logging.Logger = logging.getLogger(__name__),
     n_jobs: Optional[int] = None,
+    do_kld: bool = True,
 ) -> pd.DataFrame:
     """Compute all metrics, returns dataframe
 
@@ -56,11 +57,12 @@ def compute_metrics_df(
         raise NotImplementedError
 
     # Load limits for kl div
-    task_limits = task.get_param_limits().numpy()
-    # task_names = task.get_names_parameters()
-    # assert len(task_limits) == len(task_names)
-    # limits = all_limits(task_limits, task_names)  # noqa: F841
-    limits = all_limits(task_limits)  # noqa: F841
+    if do_kld:
+        task_limits = task.get_param_limits().numpy()
+        # task_names = task.get_names_parameters()
+        # assert len(task_limits) == len(task_names)
+        # limits = all_limits(task_limits, task_names)  # noqa: F841
+        limits = all_limits(task_limits)  # noqa: F841
 
     # Load samples
     reference_posterior_samples = task.get_reference_posterior_samples(num_observation)[
@@ -109,8 +111,6 @@ def compute_metrics_df(
     # Names of all metrics as keys, values are calls that are passed to eval
     _METRICS_ = {
         "C2ST": "c2st_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, z_score=True, n_jobs=n_jobs)",
-        "KLD": "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=False, n_jobs=n_jobs)",
-        "KLD_FIX": "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=True, n_jobs=n_jobs)",
         #
         # Not based on samples
         #
@@ -120,6 +120,14 @@ def compute_metrics_df(
         # "data_dim": "np.atleast_1d(get_int_from_csv(metric_paths['data_dimension']))",
         # "parameter_dim": "np.atleast_1d(get_int_from_csv(metric_paths['parameter_dimension']))",
     }
+
+    if do_kld:
+        _METRICS_["KLD"] = (
+            "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=False, n_jobs=n_jobs)",
+        )
+        _METRICS_["KLD_FIX"] = (
+            "kl_on_marginals(X=reference_marginalized_posterior_samples, Y=algorithm_marginalized_posterior_samples, limits=limits, bins=10, add_a_sample=True, n_jobs=n_jobs)",
+        )
 
     metrics_dict = {}
     for metric, eval_cmd in _METRICS_.items():

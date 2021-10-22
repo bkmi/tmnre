@@ -39,7 +39,7 @@ def main(cfg: DictConfig) -> None:
         sys.excepthook = pdb_hook
 
     log = logging.getLogger(__name__)
-    log.info(cfg.pretty())
+    log.info(cfg)
     log.info(f"swyft version: {get_distribution('swyft').version}")
     log.info(f"sbibm version: {sbibm.__version__}")
     log.info(f"Hostname: {socket.gethostname()}")
@@ -174,6 +174,7 @@ def main(cfg: DictConfig) -> None:
             benchmark_paths=benchmark_paths,
             log=log,
             n_jobs=cfg.analysis.metric_n_jobs,
+            do_kld=False,
         )
         df_metrics.to_csv(benchmark_paths.metrics, index=False)
         log.info(f"Metrics:\n{df_metrics.transpose().to_string(header=False)}")
