@@ -3,7 +3,7 @@
 # Truncated Marginal Neural Ratio Estimation
 
 This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation, published in NeurIPS 2021. Read the preprint on [arxiv](https://arxiv.org/abs/2107.01214).
-The underlying algorithm implementation is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm).
+The underlying algorithm implementation is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm). The DOI links to results data which are explained below; they are generally unnecessary to use this repository.
 
 
 ## Setup
