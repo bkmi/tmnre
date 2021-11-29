@@ -1,10 +1,9 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5592427.svg)](https://doi.org/10.5281/zenodo.5592427)
-
 # Truncated Marginal Neural Ratio Estimation
 
 This repository is the official implementation of the experiments from Truncated Marginal Neural Ratio Estimation, published in NeurIPS 2021. Read the preprint on [arxiv](https://arxiv.org/abs/2107.01214).
-The underlying algorithm implementation is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm). The DOI links to results data which are explained below; they are generally unnecessary to use this repository.
+The underlying algorithm implementation is called [swyft](https://github.com/undark-lab/swyft) and we perform experiments with [sbi](https://github.com/mackelab/sbi) and a forked version of [sbibm](https://github.com/bkmi/sbibm). 
 
+The results data, explained below, are available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5592427.svg)](https://doi.org/10.5281/zenodo.5592427). These data are rather large and generally unnecessary for using the repsoitory. They represent the output of the TMNRE method on problems presented within the paper.
 
 ## Setup
 
